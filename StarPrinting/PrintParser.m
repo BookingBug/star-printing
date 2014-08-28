@@ -27,7 +27,8 @@ typedef enum PrintFormatElementType
     PrintFormatElementTypeAlignRight,
     PrintFormatElementTypeBarcode,
     PrintFormatElementTypePDF417,
-    PrintFormatElementTypeQR
+    PrintFormatElementTypeQR,
+    PrintFormatElementTypeOpenDrawer
 } PrintFormatElementType;
 
 @interface PrintParser ()
@@ -209,6 +210,9 @@ typedef enum PrintFormatElementType
         case PrintFormatElementTypeQR:
             return @[@"qr"];
             break;
+        case PrintFormatElementTypeOpenDrawer:
+            return @[@"opendrawer", @"od"];
+            break;
         default:
             return nil;
             break;
@@ -230,7 +234,8 @@ typedef enum PrintFormatElementType
         PrintFormatElementTypeInvertColor,
         PrintFormatElementTypeBarcode,
         PrintFormatElementTypePDF417,
-        PrintFormatElementTypeQR
+        PrintFormatElementTypeQR,
+        PrintFormatElementTypeOpenDrawer
     };
     
     PrintFormatElementType type = PrintFormatElementTypeUnknown;

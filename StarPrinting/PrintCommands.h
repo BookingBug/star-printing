@@ -49,6 +49,10 @@ typedef enum PrinterBarcodeType
 #define kPrinterCMD_CutPartial          @"\x1b\x64\x03"
 
 
+// Drawer
+#define kPrinterCMD_OpenDrawer          @"\x07"
+
+
 // Barcode
 #define kPrinterCMD_StartBarcode        @"\x1b\x62" "%d\x32\x31\x7f"
 #define kPrinterCMD_EndBarcode          @"\x1e\r\n"
