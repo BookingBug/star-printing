@@ -99,6 +99,9 @@ typedef enum PrintFormatElementType
         case PrintFormatElementTypeAlignRight:
             [_formatter add:kPrinterCMD_AlignRight];
             break;
+        case PrintFormatElementTypeOpenDrawer:
+            [_formatter add:kPrinterCMD_OpenDrawer];
+            break;
         case PrintFormatElementTypeBarcode:
             self.currentBarcodeType = [self barcodeTypeForName:attributeDict[@"type"]];
             break;

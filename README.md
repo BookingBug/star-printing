@@ -175,12 +175,12 @@ The following are all acceptable tags to include in your XML files. Most tags ha
 The `<barcode>` tag takes a `type` attribute for the various 1D barcode types supported by the printer.  These are:
  - UPC-A
  - UPC-E
- - EAN 8
- - EAN 13
- - Code 39
+ - EAN8
+ - EAN13
+ - Code39
  - ITF
- - Code 128
- - Code 93
+ - Code128
+ - Code93
  - NW7
 
 ## Examples
