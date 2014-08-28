@@ -50,5 +50,5 @@ typedef enum PrinterBarcodeType
 
 
 // Barcode
-#define kPrinterCMD_StartBarcode        @"\x1b\x62\x06\x02\x02\x20" "12ab34cd56\x1e\r\n"
-#define kPrinterCMD_EndBarcode          @"\x1e"
+#define kPrinterCMD_StartBarcode        @"\x1b\x62" "%d\x32\x31\x7f"
+#define kPrinterCMD_EndBarcode          @"\x1e\r\n"

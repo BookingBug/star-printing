@@ -131,7 +131,9 @@
 
 - (void)barcode:(NSString *)text type:(PrinterBarcodeType)type
 {
-    [self add:kPrinterCMD_StartBarcode];
+    [self add:[NSString stringWithFormat:kPrinterCMD_StartBarcode, type]];
+    [self add:text];
+    [self add:kPrinterCMD_EndBarcode];
 }
 
 #pragma mark - Helpers
