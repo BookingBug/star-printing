@@ -28,7 +28,8 @@ typedef enum PrintFormatElementType
     PrintFormatElementTypeBarcode,
     PrintFormatElementTypePDF417,
     PrintFormatElementTypeQR,
-    PrintFormatElementTypeOpenDrawer
+    PrintFormatElementTypeOpenDrawer,
+    PrintFormatElementTypeImage
 } PrintFormatElementType;
 
 @interface PrintParser ()
@@ -37,6 +38,7 @@ typedef enum PrintFormatElementType
 @property (nonatomic, assign) PrintFormatElementType currentElementType;
 @property (nonatomic, assign) PrinterBarcodeType currentBarcodeType;
 
+- (void)addImageWithPath:(NSString *)path;
 - (NSArray *)elementNamesForFormatterType:(PrintFormatElementType)type;
 - (PrintFormatElementType)elementTypeForName:(NSString *)name;
 - (PrinterBarcodeType)barcodeTypeForName:(NSString *)name;
@@ -101,6 +103,9 @@ typedef enum PrintFormatElementType
             break;
         case PrintFormatElementTypeOpenDrawer:
             [_formatter add:kPrinterCMD_OpenDrawer];
+            break;
+        case PrintFormatElementTypeImage:
+            [self addImageWithPath:attributeDict[@"src"]];
             break;
         case PrintFormatElementTypeBarcode:
             self.currentBarcodeType = [self barcodeTypeForName:attributeDict[@"type"]];
@@ -167,6 +172,19 @@ typedef enum PrintFormatElementType
 
 #pragma mark - Helpers
 
+- (void)addImageWithPath:(NSString *)path
+{
+    NSString *fullPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:path];
+    UIImage *image = [UIImage imageWithContentsOfFile:fullPath];
+    StarBitmap *starbitmap = [[StarBitmap alloc] initWithUIImage:image :580 :YES];
+    NSData *bitmapCommands = [starbitmap getImageDataForPrinting:YES];
+    
+    [_formatter add:kPrinterCMD_StartImage];
+    [_formatter addRawData:bitmapCommands];
+    [_formatter add:kPrinterCMD_EndImage];
+    [_formatter add:kPrinterCMD_Newline];
+}
+
 - (NSArray *)elementNamesForFormatterType:(PrintFormatElementType)type
 {
     switch (type) {
@@ -218,6 +236,9 @@ typedef enum PrintFormatElementType
         case PrintFormatElementTypeOpenDrawer:
             return @[@"opendrawer", @"od"];
             break;
+        case PrintFormatElementTypeImage:
+            return @[@"img", @"image"];
+            break;
         default:
             return nil;
             break;
@@ -240,7 +261,8 @@ typedef enum PrintFormatElementType
         PrintFormatElementTypeBarcode,
         PrintFormatElementTypePDF417,
         PrintFormatElementTypeQR,
-        PrintFormatElementTypeOpenDrawer
+        PrintFormatElementTypeOpenDrawer,
+        PrintFormatElementTypeImage
     };
     
     PrintFormatElementType type = PrintFormatElementTypeUnknown;

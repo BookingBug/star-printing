@@ -92,3 +92,30 @@ typedef enum PrinterBarcodeType
                                         "\x1b\x1d\x79\x53\x32\x06" \
                                         "\x1b\x1d\x79\x44\x31\x00"
 #define kPrinterCMD_EndQR               @"\x1b\x1d\x79\x50\r\n"
+
+
+
+// Image
+/* Start Image Command Ordering
+   ----------------------------
+ 
+ 1. Start Raster Mode
+ 2. Top margin (set to small)
+ 3. Speed (set to low)
+ 4. Page length (set to 0)
+ 5. Left margin (set to 0)
+ 6. Right margin (set to 0)
+ 7. End of page mode command (set to do nothing)
+ 8. End of document mode comment (set to do nothing)
+ */
+#define kPrinterCMD_StartImage          @"\x1b\x2a\x72\x41" \
+                                        "\x1b\x2a\x72\x54\x31\x00" \
+                                        "\x1b\x2a\x72\x51\x32\x00" \
+                                        "\x1b\x2a\x72\x50\x30\x00" \
+                                        "\x1b\x2a\x72\x6d\x6c\x30\x00" \
+                                        "\x1b\x2a\x72\x6d\x72\x30\x00" \
+                                        "\x1b\x2a\x72\x46\x31\x00" \
+                                        "\x1b\x2a\x72\x45\x31\x00"
+
+#define kPrinterCMD_EndImage            @"\x1b\x0c\x00" \
+                                        "\x1b\x2a\x72\x42"

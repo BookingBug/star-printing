@@ -171,7 +171,10 @@ The following are all acceptable tags to include in your XML files. Most tags ha
  - `<dashednewline />` `<dl />` - Dashed new line
  - `<newline />` `<nl />` - New line
  - `<opendrawer />` `<od />` - Open cash drawer
-
+ - `<image>` `<image>` - Image
+ 
+The `<img>` tag takes a `src` attribute, which is the path to the image relative to the bundle root.
+ 
 The `<barcode>` tag takes a `type` attribute for the various 1D barcode types supported by the printer.  These are:
  - UPC-A
  - UPC-E
