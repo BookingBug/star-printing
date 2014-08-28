@@ -9,6 +9,7 @@
 #import "PrintParser.h"
 #import "PrintTextFormatter.h"
 #import "PrintCommands.h"
+#import "StarBitmap.h"
 
 typedef enum PrintFormatElementType
 {
