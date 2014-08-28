@@ -179,7 +179,7 @@ The `<barcode>` tag takes a `type` attribute for the various 1D barcode types su
  - EAN13
  - Code39
  - ITF
- - Code128
+ - Code128 (default)
  - Code93
  - NW7
 
