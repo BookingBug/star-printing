@@ -32,9 +32,11 @@ typedef enum PrintFormatElementType
 
 @property (nonatomic, strong) PrintTextFormatter *formatter;
 @property (nonatomic, assign) PrintFormatElementType currentElementType;
+@property (nonatomic, assign) PrinterBarcodeType currentBarcodeType;
 
 - (NSArray *)elementNamesForFormatterType:(PrintFormatElementType)type;
 - (PrintFormatElementType)elementTypeForName:(NSString *)name;
+- (PrinterBarcodeType)barcodeTypeForName:(NSString *)name;
 
 @end
 
@@ -94,6 +96,9 @@ typedef enum PrintFormatElementType
         case PrintFormatElementTypeAlignRight:
             [_formatter add:kPrinterCMD_AlignRight];
             break;
+        case PrintFormatElementTypeBarcode:
+            self.currentBarcodeType = [self barcodeTypeForName:attributeDict[@"type"]];
+            break;
         default:
             break;
     }
@@ -133,7 +138,7 @@ typedef enum PrintFormatElementType
         [text replaceOccurrencesOfString:@"\\n" withString:kPrinterCMD_Newline options:0 range:NSMakeRange(0, [text length])];
         
         if(_currentElementType == PrintFormatElementTypeBarcode) {
-            [_formatter barcode:text type:PrinterBarcodeTypeCode128];
+            [_formatter barcode:text type:self.currentBarcodeType];
         } else {
             [_formatter add:text];
         }
@@ -202,18 +207,18 @@ typedef enum PrintFormatElementType
 
 - (PrintFormatElementType)elementTypeForName:(NSString *)name
 {
-    int elements[12] = { PrintFormatElementTypeBold,
-                        PrintFormatElementTypeTab,
-                        PrintFormatElementTypeNewline,
-                        PrintFormatElementTypeAlignCenter,
-                        PrintFormatElementTypeAlignLeft,
-                        PrintFormatElementTypeAlignRight,
-                        PrintFormatElementTypeUnderline,
-                        PrintFormatElementTypeUpperline,
-                        PrintFormatElementTypeDashedline,
-                        PrintFormatElementTypeLarge,
-                        PrintFormatElementTypeInvertColor,
-                        PrintFormatElementTypeBarcode
+    int elements[] = { PrintFormatElementTypeBold,
+        PrintFormatElementTypeTab,
+        PrintFormatElementTypeNewline,
+        PrintFormatElementTypeAlignCenter,
+        PrintFormatElementTypeAlignLeft,
+        PrintFormatElementTypeAlignRight,
+        PrintFormatElementTypeUnderline,
+        PrintFormatElementTypeUpperline,
+        PrintFormatElementTypeDashedline,
+        PrintFormatElementTypeLarge,
+        PrintFormatElementTypeInvertColor,
+        PrintFormatElementTypeBarcode
     };
     
     PrintFormatElementType type = PrintFormatElementTypeUnknown;
@@ -229,6 +234,27 @@ typedef enum PrintFormatElementType
     }
     
     return type;
+}
+
+- (PrinterBarcodeType)barcodeTypeForName:(NSString *)name
+{
+    NSDictionary *lookup = @{
+                             @"upce": @(PrinterBarcodeTypeUPCE),
+                             @"upca": @(PrinterBarcodeTypeUPCA),
+                             @"ean8": @(PrinterBarcodeTypeEAN8),
+                             @"ean13": @(PrinterBarcodeTypeEAN13),
+                             @"code39": @(PrinterBarcodeTypeCode39),
+                             @"itf": @(PrinterBarcodeTypeITF),
+                             @"code128": @(PrinterBarcodeTypeCode128),
+                             @"code93": @(PrinterBarcodeTypeCode93),
+                             @"nw7": @(PrinterBarcodeTypeNW7),
+                             };
+    
+    name = [name.lowercaseString stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    if (lookup[name])
+        return (PrinterBarcodeType)[lookup[name] integerValue];
+    
+    return PrinterBarcodeTypeCode128;
 }
 
 @end
