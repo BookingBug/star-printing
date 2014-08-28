@@ -53,9 +53,21 @@ typedef enum PrinterBarcodeType
 #define kPrinterCMD_OpenDrawer          @"\x07"
 
 
-// Barcode
+// Barcode - decimal placeholder takes barcode type
 #define kPrinterCMD_StartBarcode        @"\x1b\x62" "%d\x32\x31\x7f"
 #define kPrinterCMD_EndBarcode          @"\x1e\r\n"
+
+
+// PDF417
+/* Start PDF-417 Command Ordering
+   ------------------------------
+ 
+ 1. Barcode Size (set to 1x1 using limits)
+ 2. Security Level (set to 0)
+ 3. Module X Direction Size (set to 4)
+ 4. Module Aspect Ratio (set to 2)
+ 5. Data prefix
+ */
 
 #define kPrinterCMD_StartPDF417         @"\x1b\x1d\x78\x53\x30\x01\x01\x02" \
                                         "\x1b\x1d\x78\x53\x31\x00" \
@@ -64,9 +76,19 @@ typedef enum PrinterBarcodeType
                                         "\x1b\x1d\x78\x44"
 #define kPrinterCMD_EndPDF417           @"\x1b\x1d\x78\x50\r\n"
 
+
+// QR
+/* Start QR Command Ordering
+   -------------------------
+ 
+ 1. Model # (set to 1)
+ 2. Correction Level (set to 0)
+ 3. Cell Size (set to 4)
+ 4. Data prefix
+ */
+
 #define kPrinterCMD_StartQR             @"\x1b\x1d\x79\x53\x30\x02" \
                                         "\x1b\x1d\x79\x53\x31\x03" \
                                         "\x1b\x1d\x79\x53\x32\x06" \
                                         "\x1b\x1d\x79\x44\x31\x00"
 #define kPrinterCMD_EndQR               @"\x1b\x1d\x79\x50\r\n"
-

@@ -150,6 +150,8 @@ typedef enum PrintFormatElementType
         } else if(_currentElementType == PrintFormatElementTypeQR) {
             [_formatter qr:text];
         } else {
+            [_formatter add:text];
+        }
     }
 }
 
