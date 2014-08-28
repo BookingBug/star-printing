@@ -136,6 +136,31 @@
     [self add:kPrinterCMD_EndBarcode];
 }
 
+- (void)pdf417:(NSString *)text
+{
+    unsigned char length[] = {0x00, 0x00};
+    length[0] = text.length % 256;
+    length[1] = text.length / 256;
+    
+    [self add:kPrinterCMD_StartPDF417];
+    [self add:[[NSString alloc] initWithBytes:length length:2 encoding:NSASCIIStringEncoding]];
+    [self add:text];
+    [self add:kPrinterCMD_EndPDF417];
+}
+
+- (void)qr:(NSString *)text
+{
+    unsigned char length[] = {0x00, 0x00};
+    length[0] = text.length % 256;
+    length[1] = text.length / 256;
+    
+    [self add:kPrinterCMD_StartQR];
+    [self add:[[NSString alloc] initWithBytes:length length:2 encoding:NSASCIIStringEncoding]];
+    [self add:text];
+    [self add:kPrinterCMD_EndQR];
+}
+
+
 #pragma mark - Helpers
 
 - (NSData *)formattedData

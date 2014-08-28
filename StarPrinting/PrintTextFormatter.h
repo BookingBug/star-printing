@@ -39,5 +39,7 @@ typedef NSString *(^PrintTextFormatterBlock)(NSString *text);
 
 // Barcode
 - (void)barcode:(NSString *)text type:(PrinterBarcodeType)type;
+- (void)pdf417:(NSString *)text;
+- (void)qr:(NSString *)text;
 
 @end

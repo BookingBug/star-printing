@@ -52,3 +52,17 @@ typedef enum PrinterBarcodeType
 // Barcode
 #define kPrinterCMD_StartBarcode        @"\x1b\x62" "%d\x32\x31\x7f"
 #define kPrinterCMD_EndBarcode          @"\x1e\r\n"
+
+#define kPrinterCMD_StartPDF417         @"\x1b\x1d\x78\x53\x30\x01\x01\x02" \
+                                        "\x1b\x1d\x78\x53\x31\x00" \
+                                        "\x1b\x1d\x78\x53\x32\x04" \
+                                        "\x1b\x1d\x78\x53\x33\x02" \
+                                        "\x1b\x1d\x78\x44"
+#define kPrinterCMD_EndPDF417           @"\x1b\x1d\x78\x50\r\n"
+
+#define kPrinterCMD_StartQR             @"\x1b\x1d\x79\x53\x30\x02" \
+                                        "\x1b\x1d\x79\x53\x31\x03" \
+                                        "\x1b\x1d\x79\x53\x32\x06" \
+                                        "\x1b\x1d\x79\x44\x31\x00"
+#define kPrinterCMD_EndQR               @"\x1b\x1d\x79\x50\r\n"
+

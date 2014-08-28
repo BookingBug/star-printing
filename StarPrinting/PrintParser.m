@@ -25,7 +25,9 @@ typedef enum PrintFormatElementType
     PrintFormatElementTypeAlignCenter,
     PrintFormatElementTypeAlignLeft,
     PrintFormatElementTypeAlignRight,
-    PrintFormatElementTypeBarcode
+    PrintFormatElementTypeBarcode,
+    PrintFormatElementTypePDF417,
+    PrintFormatElementTypeQR
 } PrintFormatElementType;
 
 @interface PrintParser ()
@@ -139,9 +141,11 @@ typedef enum PrintFormatElementType
         
         if(_currentElementType == PrintFormatElementTypeBarcode) {
             [_formatter barcode:text type:self.currentBarcodeType];
+        } else if(_currentElementType == PrintFormatElementTypePDF417) {
+            [_formatter pdf417:text];
+        } else if(_currentElementType == PrintFormatElementTypeQR) {
+            [_formatter qr:text];
         } else {
-            [_formatter add:text];
-        }
     }
 }
 
@@ -199,6 +203,12 @@ typedef enum PrintFormatElementType
         case PrintFormatElementTypeBarcode:
             return @[@"barcode", @"bc"];
             break;
+        case PrintFormatElementTypePDF417:
+            return @[@"pdf417"];
+            break;
+        case PrintFormatElementTypeQR:
+            return @[@"qr"];
+            break;
         default:
             return nil;
             break;
@@ -218,7 +228,9 @@ typedef enum PrintFormatElementType
         PrintFormatElementTypeDashedline,
         PrintFormatElementTypeLarge,
         PrintFormatElementTypeInvertColor,
-        PrintFormatElementTypeBarcode
+        PrintFormatElementTypeBarcode,
+        PrintFormatElementTypePDF417,
+        PrintFormatElementTypeQR
     };
     
     PrintFormatElementType type = PrintFormatElementTypeUnknown;
