@@ -19,6 +19,7 @@ typedef NSString *(^PrintTextFormatterBlock)(NSString *text);
 
 // Add a manual command
 - (void)add:(NSString *)command;
+- (void)addRawData:(NSData *)data;
 
 // Commands
 - (void)tab;

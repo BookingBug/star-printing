@@ -176,4 +176,9 @@
     [_commands appendData:[text dataUsingEncoding:NSASCIIStringEncoding]];
 }
 
+- (void)addRawData:(NSData *)data
+{
+    [_commands appendData:data];
+}
+
 @end
