@@ -25,7 +25,6 @@ typedef struct ARGBPixel {
 }
 
 - (id)initWithUIImage:(UIImage *)image :(int)maxWidth :(bool)dithering;
-- (void)dealloc;
 - (NSData *)getImageDataForPrinting:(BOOL)compressionEnable;
 - (NSData *)getImageMiniDataForPrinting:(BOOL)compressionEnable pageModeEnable:(BOOL)pageModeEnable;
 - (NSData *)getImageImpactPrinterForPrinting;
