@@ -1,176 +1,45 @@
 //
-//  PrintTextFormatter.m
+//  PrintTextFormatter.h
 //  StarPrinting
 //
 //  Created by Matthew Newberry on 4/11/13.
 //  OpenTable
 //
 
-#import "PrintTextFormatter.h"
+#import <Foundation/Foundation.h>
+#import "PrintCommands.h"
 
-@interface PrintTextFormatter ()
+typedef NSString *(^PrintTextFormatterBlock)(NSString *text);
 
-@property (nonatomic, strong) NSMutableData *commands;
+@interface PrintTextFormatter : NSObject
 
-@end
+@property (nonatomic, readonly) NSData *formattedData;
 
-@implementation PrintTextFormatter
++ (PrintTextFormatter *)formatter;
 
-#pragma mark - Initialization
+// Add a manual command
+- (void)add:(NSString *)command;
 
-+ (PrintTextFormatter *)formatter
-{
-    PrintTextFormatter *formatter = [[PrintTextFormatter alloc] init];
-    return formatter;
-}
+// Commands
+- (void)tab;
+- (void)newline;
+- (void)dashedNewLine;
 
-- (id)init
-{
-    self = [super init];
-    if(self) {
-        self.commands = [NSMutableData data];
-        [self add:kPrinterCMD_HorizTab];
-    }
-    return self;
-}
+// Text Formatting
+- (void)bold:(NSString *)text next:(PrintTextFormatterBlock)block;
+- (void)underline:(NSString *)text next:(PrintTextFormatterBlock)block;
+- (void)upperline:(NSString *)text next:(PrintTextFormatterBlock)block;
+- (void)large:(NSString *)text next:(PrintTextFormatterBlock)block;
+- (void)invertColor:(NSString *)text next:(PrintTextFormatterBlock)block;
 
-#pragma mark - Commands
+// Text alignment
+- (void)alignLeft:(PrintTextFormatterBlock)block;
+- (void)alignRight:(PrintTextFormatterBlock)block;
+- (void)alignCenter:(PrintTextFormatterBlock)block;
 
-- (void)tab
-{
-    [self add:kPrinterCMD_Tab];
-}
-
-- (void)newline
-{
-    [self add:kPrinterCMD_Newline];
-}
-
-- (void)dashedNewLine
-{
-    [self add:@"\r\n------------------------------------------------\r\n"];
-}
-
-#pragma mark - Text Formatting
-
-- (void)bold:(NSString *)text next:(PrintTextFormatterBlock)block
-{
-    [self add:kPrinterCMD_StartBold];
-    [self add:text];
-    [self add:kPrinterCMD_EndBold];
-    
-    if(block) {
-        block(text);
-    }
-}
-
-- (void)underline:(NSString *)text next:(PrintTextFormatterBlock)block
-{
-    [self add:kPrinterCMD_StartUnderline];
-    [self add:text];
-    [self add:kPrinterCMD_EndUnderline];
-    
-    if(block) {
-        block(text);
-    }
-}
-
-- (void)upperline:(NSString *)text next:(PrintTextFormatterBlock)block
-{
-    [self add:kPrinterCMD_StartUpperline];
-    [self add:text];
-    [self add:kPrinterCMD_EndUpperline];
-    
-    if(block) {
-        block(text);
-    }
-}
-
-- (void)large:(NSString *)text next:(PrintTextFormatterBlock)block
-{
-    [self add:kPrinterCMD_StartDoubleHW];
-    [self add:text];
-    [self add:kPrinterCMD_EndDoubleHW];
-    
-    if(block) {
-        block(text);
-    }
-}
-
-- (void)invertColor:(NSString *)text next:(PrintTextFormatterBlock)block
-{
-    [self add:kPrinterCMD_StartInvertColor];
-    [self add:text];
-    [self add:kPrinterCMD_EndInvertColor];
-    
-    if(block) {
-        block(text);
-    }
-}
-
-
-#pragma mark - Text Alignment
-
-- (void)alignLeft:(PrintTextFormatterBlock)block
-{
-    [self add:kPrinterCMD_AlignLeft];
-}
-
-- (void)alignRight:(PrintTextFormatterBlock)block
-{
-    [self add:kPrinterCMD_AlignRight];
-}
-
-- (void)alignCenter:(PrintTextFormatterBlock)block
-{
-    [self add:kPrinterCMD_AlignCenter];
-}
-
-
-#pragma mark - Barcodes
-
-- (void)barcode:(NSString *)text type:(PrinterBarcodeType)type
-{
-    [self add:[NSString stringWithFormat:kPrinterCMD_StartBarcode, type]];
-    [self add:text];
-    [self add:kPrinterCMD_EndBarcode];
-}
-
-- (void)pdf417:(NSString *)text
-{
-    unsigned char length[] = {0x00, 0x00};
-    length[0] = text.length % 256;
-    length[1] = text.length / 256;
-    
-    [self add:kPrinterCMD_StartPDF417];
-    [self add:[[NSString alloc] initWithBytes:length length:2 encoding:NSASCIIStringEncoding]];
-    [self add:text];
-    [self add:kPrinterCMD_EndPDF417];
-}
-
-- (void)qr:(NSString *)text
-{
-    unsigned char length[] = {0x00, 0x00};
-    length[0] = text.length % 256;
-    length[1] = text.length / 256;
-    
-    [self add:kPrinterCMD_StartQR];
-    [self add:[[NSString alloc] initWithBytes:length length:2 encoding:NSASCIIStringEncoding]];
-    [self add:text];
-    [self add:kPrinterCMD_EndQR];
-}
-
-
-#pragma mark - Helpers
-
-- (NSData *)formattedData
-{
-    return _commands;
-}
-
-- (void)add:(NSString *)text
-{
-    [_commands appendData:[text dataUsingEncoding:NSASCIIStringEncoding]];
-}
+// Barcode
+- (void)barcode:(NSString *)text type:(PrinterBarcodeType)type;
+- (void)pdf417:(NSString *)text;
+- (void)qr:(NSString *)text;
 
 @end
