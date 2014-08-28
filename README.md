@@ -37,7 +37,7 @@ See [cocoapods.org](http://cocoapods.org/) for instructions on installing and us
 The following import statement is the only one you will ever need. It will import all the necessary header files from the pod.
 
 ```objective-c
-#import <StarPrinting/StarPrinting.h>
+ #import <StarPrinting/StarPrinting.h>
 ```
 
 ### Initializing
@@ -154,7 +154,7 @@ Calling print on the object:
 ```
 
 ## List of XML tags
-The following are all acceptable tags to include in your XML files. Each one has a longhand and a shorthand.
+The following are all acceptable tags to include in your XML files. Most tags have a longhand and a shorthand:
  - `<text>` `<t>` - Any printable text (all other text formatting tags must be nested in this one)
  - `<bold>` `<b>` - Bold text
  - `<underline>` `<ul>` - Underlined text
@@ -164,10 +164,24 @@ The following are all acceptable tags to include in your XML files. Each one has
  - `<center>` `<c>` - Centered Alignment
  - `<left>` `<l>` - Left Alignment
  - `<right>` `<r>` - Right Alignment
- - `<barcode />` `<bc />` - Barcode
+ - `<barcode>` `<bc />` - 1D Barcode
+ - `<qr>` - QR Code
+ - `<pdf417>` - PDF-417 2D Barcode
  - `<tab />` `<tb />` - Tab
  - `<dashednewline />` `<dl />` - Dashed new line
  - `<newline />` `<nl />` - New line
+ - `<opendrawer />` `<od />` - Open cash drawer
+
+The `<barcode>` tag takes a `type` attribute for the various 1D barcode types supported by the printer.  These are:
+ - UPC-A
+ - UPC-E
+ - EAN 8
+ - EAN 13
+ - Code 39
+ - ITF
+ - Code 128
+ - Code 93
+ - NW7
 
 ## Examples
 
