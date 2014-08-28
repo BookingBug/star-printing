@@ -8,7 +8,7 @@
 #import "Printer.h"
 #import "PrintCommands.h"
 #import "PrintParser.h"
-#import <StarIO/Port.h>
+#import <starIOPrintSDK/Port.h>
 #import <objc/runtime.h>
 
 #define DEBUG_LOGGING           NO

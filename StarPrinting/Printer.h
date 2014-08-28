@@ -6,7 +6,7 @@
 //  OpenTable
 
 #import <Foundation/Foundation.h>
-#import <StarIO/SMPort.h>
+#import <starIOPrintSDK/SMPort.h>
 #import "PrintData.h"
 
 #define kConnectedPrinterKey    @"ConnectedPrinterKey"

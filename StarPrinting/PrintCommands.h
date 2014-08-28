@@ -54,7 +54,7 @@ typedef enum PrinterBarcodeType
 
 
 // Barcode - decimal placeholder takes barcode type
-#define kPrinterCMD_StartBarcode        @"\x1b\x62" "%d\x32\x31\x7f"
+#define kPrinterCMD_StartBarcode        @"\x1b\x62" "%@\x32\x31\x7f"
 #define kPrinterCMD_EndBarcode          @"\x1e\r\n"
 
 

@@ -9,8 +9,7 @@ Pod::Spec.new do |s|
   s.requires_arc        = true
   s.source_files        = 'StarPrinting/*.{h,m}'
   s.platform            = :ios, '7.0'
-  s.preserve_paths      = 'StarIO.framework'
-  s.xcconfig            = { 'FRAMEWORK_SEARCH_PATHS' => '"$(PODS_ROOT)/StarPrinting"' }
-  s.vendored_frameworks = 'StarIO.framework'
-  s.header_mappings_dir = 'StarIO'
+  s.xcconfig            = { "FRAMEWORK_SEARCH_PATHS" => '"$(PODS_ROOT)/starIOPrintSDK/**"' }
+    
+  s.dependency 'starIOPrintSDK', '~> 3.10'
 end
